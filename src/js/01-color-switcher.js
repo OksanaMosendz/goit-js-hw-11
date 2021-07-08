@@ -9,10 +9,12 @@ function getRandomHexColor(){
 
 const startSwitch=()=>{
 intervalId=setInterval(()=>{body.style.backgroundColor=`${getRandomHexColor()}`;}, 1000);
+startBtn.disabled = true;
 };
 
 const stopSwitch=()=>{
   clearInterval(intervalId);
+  startBtn.disabled = false;
 };
 
 startBtn.addEventListener('click',startSwitch);
