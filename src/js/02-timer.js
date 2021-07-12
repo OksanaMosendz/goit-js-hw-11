@@ -1,18 +1,18 @@
 import '../sass/main.scss';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+
 
 const dataInput=document.getElementById('date-selector');
 const startBtn=document.querySelector('[data-start]');
-const days=document.querySelector('[data-days]');
-const hours=document.querySelector('[data-hours]');
-const minutes=document.querySelector('[data-minutes]');
-const seconds=document.querySelector('[data-seconds]');
+const daysTimer=document.querySelector('[data-days]');
+const hoursTimer=document.querySelector('[data-hours]');
+const minutesTimer=document.querySelector('[data-minutes]');
+const secondsTimer=document.querySelector('[data-seconds]');
 
 let dateNow=0;
 let userDate=0;
 
-
 startBtn.disabled=true;
-
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -40,21 +40,35 @@ const checkDate=()=>{
 
   if (userDate<=dateNow){
   startBtn.disabled=true;
+  Swal.fire('Please choose a date in the future');
   }
+
   else startBtn.disabled=false;
 }
+
 
 const startCountdown=()=>{
   
   const intervalId=setInterval(()=>{
     dateNow=Date.now();
+    let dateObject={};
+
     if(userDate<dateNow){
       clearInterval(intervalId)
     }
-    else console.log(convertMs(userDate-dateNow));
-  },1000)
+
+    else dateObject=convertMs(userDate-dateNow);
+    const {days, hours, minutes, seconds}=dateObject;
+
+    daysTimer.textContent=`${days}`;
+    hoursTimer.textContent=`${hours}`;
+    minutesTimer.textContent=`${minutes}`;
+    secondsTimer.textContent=`${seconds}`;
+
+    },1000)
 }
   
+
 dataInput.addEventListener('input',checkDate);
 startBtn.addEventListener('click', startCountdown);
 
