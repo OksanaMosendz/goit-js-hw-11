@@ -52,11 +52,13 @@ const checkDate=()=>{
     startBtn.disabled=false;
     return;
   }
+  startBtn.disabled=true;
 }
 
 const checkDateAlert=()=>{
 if (userDate<=dateNow){
   Swal.fire('Please choose a date in the future');
+  startBtn.disabled=true;
   return;}
 }
 
