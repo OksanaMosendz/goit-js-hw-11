@@ -1,18 +1,26 @@
 import '../sass/main.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 
-
 const dataInput=document.getElementById('date-selector');
 const startBtn=document.querySelector('[data-start]');
 const daysTimer=document.querySelector('[data-days]');
 const hoursTimer=document.querySelector('[data-hours]');
 const minutesTimer=document.querySelector('[data-minutes]');
 const secondsTimer=document.querySelector('[data-seconds]');
+const timer=document.querySelector('.timer');
+const fields=document.querySelectorAll('.field');
 
-let dateNow=0;
-let userDate=0;
+const setTimer=(...args)=>{
+  startBtn.disabled=true;
+  timer.style.display='flex';
+  args.forEach(arg =>{
+    arg.textContent='00';
+    arg.style.fontSize='40px';
+  });
+  }
 
-startBtn.disabled=true;
+setTimer(daysTimer, hoursTimer, minutesTimer, secondsTimer);
+fields.forEach(field=>{field.style.marginRight='20px'});
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -33,19 +41,24 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
+let dateNow=0;
+let userDate=0;
 
 const checkDate=()=>{
   userDate=Date.parse(dataInput.value);
   dateNow=Date.now();
 
-  if (userDate<=dateNow){
-  startBtn.disabled=true;
-  Swal.fire('Please choose a date in the future');
+  if(userDate>dateNow){
+    startBtn.disabled=false;
+    return;
   }
-
-  else startBtn.disabled=false;
 }
 
+const checkDateAlert=()=>{
+if (userDate<=dateNow){
+  Swal.fire('Please choose a date in the future');
+  return;}
+}
 
 const startCountdown=()=>{
   
@@ -53,63 +66,21 @@ const startCountdown=()=>{
     dateNow=Date.now();
     let dateObject={};
 
-    if(userDate<dateNow){
-      clearInterval(intervalId)
+    if(userDate>dateNow){
+      dateObject=convertMs(userDate-dateNow);
+      const {days, hours, minutes, seconds}=dateObject;
+  
+      daysTimer.textContent=`${days}`;
+      hoursTimer.textContent=`${hours}`;
+      minutesTimer.textContent=`${minutes}`;
+      secondsTimer.textContent=`${seconds}`;
     }
 
-    else dateObject=convertMs(userDate-dateNow);
-    const {days, hours, minutes, seconds}=dateObject;
-
-    daysTimer.textContent=`${days}`;
-    hoursTimer.textContent=`${hours}`;
-    minutesTimer.textContent=`${minutes}`;
-    secondsTimer.textContent=`${seconds}`;
-
+    else {clearInterval(intervalId);
+     }
     },1000)
 }
   
-
 dataInput.addEventListener('input',checkDate);
+dataInput.addEventListener('blur',checkDateAlert);
 startBtn.addEventListener('click', startCountdown);
-
-
-
-
-// // Задание 2 - таймер обратного отсчета
-// // Напиши скрипт таймера, который ведёт обратный отсчет до определенной даты. Такой таймер может использоваться в блогах и интернет-магазинах, страницах регистрации событий, во время технического обслуживания и т. д.
-
-// // Preview
-
-// // В HTML есть готовая разметка таймера, поле для выбора конечной даты и кнопка, при клике по которой таймер должен запускаться. Добавь минимальное оформление элементов интерфейса.
-
-// <input type="date" id="date-selector" />
-// <button type="button" data-start>Start countdown</button>
-
-// <div class="timer">
-//   <div class="field">
-//     <span class="value" data-days>11</span>
-//     <span class="label">Days</span>
-//   </div>
-//   <div class="field">
-//     <span class="value" data-hours>11</span><span class="label">Hours</span>
-//   </div>
-//   <div class="field">
-//     <span class="value" data-minutes>11</span>
-//     <span class="label">Minutes</span>
-//   </div>
-//   <div class="field">
-//     <span class="value" data-seconds>11</span>
-//     <span class="label">Seconds</span>
-//   </div>
-// </div>
-
-// Если пользователь выбрал дату в прошлом, необходимо показать уведомление "Please choose a date in the future". Используй библиотеку sweetalert2.
-// Кнопка должа быть не активна до тех пор, пока пользователь не выбрал дату в будущем.
-// Если выбрана валидная дата и пользователь нажал кнопку - начинается отсчет времени.
-// Скрипт должен вычислять раз в секунду сколько времени осталось до указанной даты и обновлять интерфейс, показывая четыре цифры: дни, часы, минуты и секунды в формате xx:xx:xx:xx.
-
-// Количество дней может состоять из более чем двух цифр.
-// Таймер должен останавливаться когда дошел до конечной даты, то есть 00:00:00:00.
-// Для подсчета значений используй готовую функцию, где ms - разница между конечной и текущей датой в миллисекундах.
-
-
