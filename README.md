@@ -89,3 +89,4 @@ makeTransaction({ id: 71, amount: 230 }, logSuccess, logError);
 // The function should work like this
 makeTransaction({ id: 70, amount: 150 }).then(logSuccess).catch(logError);
 makeTransaction({ id: 71, amount: 230 }).then(logSuccess).catch(logError);
+
