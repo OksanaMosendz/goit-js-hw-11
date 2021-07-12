@@ -3,8 +3,8 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{}],"TCaP":[function(require,module,exports) {
 const e=document.querySelector("[data-start]"),t=document.querySelector("[data-stop]"),r=document.querySelector("body");let o=0;function n(){return`#${Math.floor(16777215*Math.random()).toString(16)}`}const a=()=>{o=setInterval(()=>{r.style.backgroundColor=`${n()}`},1e3),e.disabled=!0},d=()=>{clearInterval(o),e.disabled=!1};e.addEventListener("click",a),t.addEventListener("click",d);
 },{}],"mKIM":[function(require,module,exports) {
-const o=o=>{},e=o=>console.log(`Fulfilled after ${o}ms`);(void 0).then(e),(void 0).then(e),(void 0).then(e);
+const e=e=>new Promise(n=>{setTimeout(()=>{n(`${e}`)},e)}),n=e=>console.log(`Fulfilled after ${e}ms`);e(2e3).then(n),e(1e3).then(n),e(1500).then(n);const t=[{name:"Mango",active:!0},{name:"Poly",active:!1},{name:"Ajax",active:!1}],a=(e,n)=>new Promise(t=>{t(e.map(e=>e.name===n?{...e,active:!e.active}:e))});a(t,"Mango").then(console.table),a(t,"Ajax").then(console.table);const o=(e,n)=>Math.floor(Math.random()*(n-e+1)+e),i=e=>{const n=o(200,500);return new Promise((t,a)=>{setTimeout(()=>{Math.random()>.3?t({id:e.id,time:n}):a(e.id)},n)})},s=({id:e,time:n})=>{console.log(`Transaction ${e} processed in ${n}ms`)},c=e=>{console.warn(`Error processing transaction ${e}. Please try again later.`)};i({id:70,amount:150}).then(s).catch(c),i({id:71,amount:230}).then(s).catch(c);
 },{}],"Focm":[function(require,module,exports) {
 "use strict";require("./sass/main.scss"),require("./js/01-color-switcher.js"),require("./js/03-promisses.js");
 },{"./sass/main.scss":"clu1","./js/01-color-switcher.js":"TCaP","./js/03-promisses.js":"mKIM"}]},{},["Focm"], null)
-//# sourceMappingURL=/goit-js-hw-11/src.27b36697.js.map
+//# sourceMappingURL=/goit-js-hw-11/src.bd72e943.js.map
