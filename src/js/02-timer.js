@@ -1,5 +1,66 @@
 import '../sass/main.scss';
 
+const dataInput=document.getElementById('date-selector');
+const startBtn=document.querySelector('[data-start]');
+const days=document.querySelector('[data-days]');
+const hours=document.querySelector('[data-hours]');
+const minutes=document.querySelector('[data-minutes]');
+const seconds=document.querySelector('[data-seconds]');
+
+let dateNow=0;
+let userDate=0;
+
+
+startBtn.disabled=true;
+
+
+function convertMs(ms) {
+  // Number of milliseconds per unit of time
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+
+  // Remaining days
+  const days = Math.floor(ms / day);
+  // Remaining hours
+  const hours = Math.floor((ms % day) / hour);
+  // Remaining minutes
+  const minutes = Math.floor(((ms % day) % hour) / minute);
+  // Remaining seconds
+  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+
+  return { days, hours, minutes, seconds };
+}
+
+
+const checkDate=()=>{
+  userDate=Date.parse(dataInput.value);
+  dateNow=Date.now();
+
+  if (userDate<=dateNow){
+  startBtn.disabled=true;
+  }
+  else startBtn.disabled=false;
+}
+
+const startCountdown=()=>{
+  
+  const intervalId=setInterval(()=>{
+    dateNow=Date.now();
+    if(userDate<dateNow){
+      clearInterval(intervalId)
+    }
+    else console.log(convertMs(userDate-dateNow));
+  },1000)
+}
+  
+dataInput.addEventListener('input',checkDate);
+startBtn.addEventListener('click', startCountdown);
+
+
+
+
 // // Задание 2 - таймер обратного отсчета
 // // Напиши скрипт таймера, который ведёт обратный отсчет до определенной даты. Такой таймер может использоваться в блогах и интернет-магазинах, страницах регистрации событий, во время технического обслуживания и т. д.
 
@@ -27,6 +88,7 @@ import '../sass/main.scss';
 //     <span class="label">Seconds</span>
 //   </div>
 // </div>
+
 // Если пользователь выбрал дату в прошлом, необходимо показать уведомление "Please choose a date in the future". Используй библиотеку sweetalert2.
 // Кнопка должа быть не активна до тех пор, пока пользователь не выбрал дату в будущем.
 // Если выбрана валидная дата и пользователь нажал кнопку - начинается отсчет времени.
@@ -36,25 +98,4 @@ import '../sass/main.scss';
 // Таймер должен останавливаться когда дошел до конечной даты, то есть 00:00:00:00.
 // Для подсчета значений используй готовую функцию, где ms - разница между конечной и текущей датой в миллисекундах.
 
-// function convertMs(ms) {
-//   // Number of milliseconds per unit of time
-//   const second = 1000;
-//   const minute = second * 60;
-//   const hour = minute * 60;
-//   const day = hour * 24;
 
-//   // Remaining days
-//   const days = Math.floor(ms / day);
-//   // Remaining hours
-//   const hours = Math.floor((ms % day) / hour);
-//   // Remaining minutes
-//   const minutes = Math.floor(((ms % day) % hour) / minute);
-//   // Remaining seconds
-//   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-
-//   return { days, hours, minutes, seconds };
-// }
-
-// console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-// console.log(convertMs(140000)); //{days: 0, hours: 0, minutes: 2, seconds: 20}
-// console.log(convertMs(24140000)); // {days: 0, hours: 6, minutes: 42, seconds: 20}
